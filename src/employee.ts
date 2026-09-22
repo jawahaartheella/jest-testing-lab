@@ -1,10 +1,14 @@
 import type { Employee } from "./employee.interface.js";
 
-const employee: Employee = {
-    name: "John",
-    age: 25,
-    department: "Engineering",
-    salary: 67500
+export function createEmployee(name: string, age: number, dept: string, salary: number): Employee {
+    const employee: Employee = {
+        name: name,
+        age: age,
+        department: dept,
+        salary: salary
+    }
+
+    return employee;
 }
 
 export function calculateAnnulaSalary(salary: number): number {

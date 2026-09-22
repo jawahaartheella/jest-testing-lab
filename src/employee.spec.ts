@@ -1,4 +1,4 @@
-import { calculateAnnulaSalary, calculateBonus } from "./employee";
+import { calculateAnnulaSalary, calculateBonus, createEmployee } from "./employee";
 
 // Test suite
 // A test suite is not just a collection of assertions. It describes the expected behavior of the application.
@@ -75,4 +75,53 @@ describe('Employee', () => {
             });
         });
     });
+
+    describe('Employee Details', () => {
+        it('should return employee details matching the Employee interface', () => {
+            const employee = createEmployee('John', 25, 'Engineering', 50000);
+
+            expect(employee).toEqual({
+                name: 'John',
+                age: 25,
+                department: "Engineering",
+                salary: 50000 
+            });
+        });
+        
+        it('should verify if name and department fields exist in employee details', () => {
+            const employee = createEmployee('Varun', 24, 'QA', 60000);
+
+            expect(employee).toMatchObject({name: 'Varun', department: 'QA'});
+        });
+
+        it('should check if employee details have fields name, age, department and salary', () => {
+            const employee = createEmployee('Kiran', 25, 'cyber Security', 100000);
+
+            expect(employee).toHaveProperty('name');
+            expect(employee).toHaveProperty('department');
+            expect(employee).toHaveProperty('age');
+            expect(employee).toHaveProperty('salary');
+        });
+
+        it('should check if the salary of employee is greater than 0', () => {
+            const employee = createEmployee('John', 25, 'Engineering', 50000);
+
+            expect(employee.salary).toBeGreaterThan(0);
+        });
+
+        it('should check if the employee exists in the employee list', () => {
+            const employeeList = [
+                createEmployee('Kiran', 35, 'QA', 10000), 
+                createEmployee('Arun', 25, 'IOT', 40000), 
+                createEmployee('Tarun', 30, 'MBA', 30000)
+            ];
+
+            expect(employeeList).toContainEqual({
+                name: 'Arun',
+                age: 25,
+                department: 'IOT',
+                salary: 40000
+            });
+        })
+    })
 });
