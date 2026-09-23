@@ -18,3 +18,10 @@ export function calculateAnnulaSalary(salary: number): number {
 export function calculateBonus(salary: number, bonusPercent: number): number {
     return salary * (bonusPercent/100);
 }
+
+export function isEligibleForBonus(salary: number): boolean {
+    if(salary >= 30000) {
+        return true;
+    }
+    return false;
+}

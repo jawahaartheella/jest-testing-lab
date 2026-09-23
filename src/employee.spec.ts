@@ -1,4 +1,4 @@
-import { calculateAnnulaSalary, calculateBonus, createEmployee } from "./employee";
+import { calculateAnnulaSalary, calculateBonus, createEmployee, isEligibleForBonus } from "./employee";
 
 // Test suite
 // A test suite is not just a collection of assertions. It describes the expected behavior of the application.
@@ -33,46 +33,46 @@ describe('Employee', () => {
             //      X should return 0 when monthly salary is 0
             // We will easily know where the issue was
         });
+    });
 
-        describe('Bonus', () => {
+    describe('Bonus', () => {
 
-            // We'll check with a normal input
-            it('should return the calculated bonus amount 2000', () => {
-                const salary = 20000;
-                const bonusPercent = 10;
+        // We'll check with a normal input
+        it('should return the calculated bonus amount 2000', () => {
+            const salary = 20000;
+            const bonusPercent = 10;
 
-                const bonusAmount = calculateBonus(salary, bonusPercent);
+            const bonusAmount = calculateBonus(salary, bonusPercent);
 
-                expect(bonusAmount).toBe(2000);
-            });
+            expect(bonusAmount).toBe(2000);
+        });
 
-            // Now we will check with normal input but different value, this becomes little stronger 
-            it('should return the calculated bonus amount 5000', () => {
-                const salary = 50000;
-                const bonusPercent = 10;
+        // Now we will check with normal input but different value, this becomes little stronger 
+        it('should return the calculated bonus amount 5000', () => {
+            const salary = 50000;
+            const bonusPercent = 10;
 
-                const bonusAmount = calculateBonus(salary, bonusPercent);
+            const bonusAmount = calculateBonus(salary, bonusPercent);
 
-                expect(bonusAmount).toBe(5000);
-            });
+            expect(bonusAmount).toBe(5000);
+        });
 
-            it('should return zero when salary is zero', () => {
-                const salary = 0;
-                const bonusPercent = 10;
+        it('should return zero when salary is zero', () => {
+            const salary = 0;
+            const bonusPercent = 10;
 
-                const bonusAmount = calculateBonus(salary, bonusPercent);
+            const bonusAmount = calculateBonus(salary, bonusPercent);
 
-                expect(bonusAmount).toBe(0);
-            });
+            expect(bonusAmount).toBe(0);
+        });
 
-            it('should return zero when the bonus percent is zero', () => {
-                const salary = 10000;
-                const bonusPercent = 0;
+        it('should return zero when the bonus percent is zero', () => {
+            const salary = 10000;
+            const bonusPercent = 0;
 
-                const bonusAmount = calculateBonus(salary, bonusPercent);
+            const bonusAmount = calculateBonus(salary, bonusPercent);
 
-                expect(bonusAmount).toBe(0);
-            });
+            expect(bonusAmount).toBe(0);
         });
     });
 
@@ -116,12 +116,60 @@ describe('Employee', () => {
                 createEmployee('Tarun', 30, 'MBA', 30000)
             ];
 
+            // we can use toContain when we     are checking using the same reference
+            // expect(employeeList).toContain(employeeList[0]);
+
+            // But if we try to check using the contents, we use "toContainEqual"
             expect(employeeList).toContainEqual({
                 name: 'Arun',
                 age: 25,
                 department: 'IOT',
                 salary: 40000
             });
+        });
+    });
+
+    describe('Bonus Eligibility', () => {
+        it('should return false when salary is equal to zero', () => {
+            const salary = 0;
+
+            const isEligible = isEligibleForBonus(salary);
+
+            expect(isEligible).toBe(false);
+        });
+
+        it('should return false when salary is less than 30000', () => {
+            const salary = 15000;
+            
+            const isEligible = isEligibleForBonus(salary);
+
+            expect(isEligible).toBe(false);
+        });
+
+        it('should return false when the salary is 29999, Border case', () => {
+            // 'should return false when salary is just below the eligibility threshold'
+            const salary = 29999;
+            
+            const isEligible = isEligibleForBonus(salary);
+
+            expect(isEligible).toBe(false);
+        });
+
+        it('should return true when salary is 30000, Border Case', () => {
+            // 'should return true when salary equals the eligibility threshold'
+            const salary = 30000;
+
+            const isEligible = isEligibleForBonus(salary);
+
+            expect(isEligible).toBe(true);
+        });
+
+        it('should return true when salary is greater than 30000', () => {
+            const salary = 50000;
+
+            const isEligible = isEligibleForBonus(salary);
+
+            expect(isEligible).toBe(true);
         })
-    })
+    });
 });
