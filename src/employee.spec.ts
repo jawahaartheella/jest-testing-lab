@@ -170,6 +170,7 @@ describe('Employee', () => {
             const isEligible = isEligibleForBonus(salary);
 
             expect(isEligible).toBe(true);
+            console.log('testing console.log');
         })
     });
 });
